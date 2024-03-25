@@ -4,7 +4,10 @@
 /dist
 
 # test
-/testing
+/test
+
+# react
+# /react
 
 # hidden
 .env

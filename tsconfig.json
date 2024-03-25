@@ -1,18 +1,26 @@
 {
     "compilerOptions": {
-        "jsx": "react",
+        "jsx": "react-jsx",
+        "lib": [
+            "dom",
+            "dom.iterable",
+            "esnext"
+        ],
         "strict": true,
         "noImplicitAny": true,
         "esModuleInterop": true,
         "strictNullChecks": true,
-        "target": "ES2022",
-        "moduleResolution": "Node10",
-        "module": "CommonJS",
+        "target": "ES5",
+        "moduleResolution": "Node",
+        "module": "ESNext",
         "declaration": true,
         "isolatedModules": true,
         "noEmit": true,
-        "outDir": "dist"
+        "rootDir": "./src",
+        "outDir": "./dist",
+        "paths": {
+            "@/*": ["./src/*"]
+        },
     },
     "include": ["src"],
-    "exclude": ["node_modules"]
 }

@@ -4,7 +4,10 @@
 /src
 
 # test
-/testing
+/test
+
+# react
+react
 
 # hidden
 .env
@@ -13,3 +16,7 @@
 # typescript
 tsconfig.json
 tsup.config.ts
+
+# config file
+nodemon.json
+tailwind.config.js

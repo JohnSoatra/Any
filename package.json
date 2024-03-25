@@ -11,7 +11,9 @@
   },
   "scripts": {
     "build": "tsup",
-    "publish": "tsup && publish"
+    "dev": "nodemon",
+    "start": "tsup && npm start npm start --prefix $(pwd)/react",
+    "publish": "tsup && npm publish"
   },
   "keywords": [
     "animation"
@@ -19,10 +21,13 @@
   "author": "Soatra",
   "license": "MIT",
   "dependencies": {
-    "react": "^18.2.0"
+    "react": "^18.2.0",
+    "tailwind-merge": "^1.14.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.69",
+    "nodemon": "^3.1.0",
+    "tailwind": "^4.0.0",
     "tsup": "^8.0.2",
     "typescript": "^5.4.3"
   }
