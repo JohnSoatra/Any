@@ -1,0 +1,28 @@
+{
+  "name": "@soatra/any",
+  "version": "0.0.1",
+  "description": "",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "homepage": "https://any.soatra.com",
+  "repository": {
+    "url": "https://github.com/johnsoatra/any"
+  },
+  "scripts": {
+    "build": "tsup"
+  },
+  "keywords": [
+    "animation"
+  ],
+  "author": "Soatra",
+  "license": "MIT",
+  "dependencies": {
+    "react": "^18.2.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.69",
+    "tsup": "^8.0.2",
+    "typescript": "^5.4.3"
+  }
+}
