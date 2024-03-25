@@ -1,0 +1,11 @@
+/node_modules
+
+# build
+/dist
+
+# test
+/testing
+
+# hidden
+.env
+.DS_Store

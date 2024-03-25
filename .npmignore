@@ -1,0 +1,15 @@
+/node_modules
+
+# build
+/src
+
+# test
+/testing
+
+# hidden
+.env
+.DS_Store
+
+# typescript
+tsconfig.json
+tsup.config.ts
