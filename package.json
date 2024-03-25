@@ -10,7 +10,8 @@
     "url": "https://github.com/johnsoatra/any"
   },
   "scripts": {
-    "build": "tsup"
+    "build": "tsup",
+    "publish": "tsup && publish"
   },
   "keywords": [
     "animation"
