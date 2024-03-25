@@ -1,6 +1,10 @@
-export * from "./types";
-import Button from "./components/Button";
+import '@/styles/global.css';
+import Test from '@/components/Test';
+import Any from '@/components/Any';
+
+export * from "@/types";
 
 export {
-    Button
-};
+    Test,
+    Any
+}
