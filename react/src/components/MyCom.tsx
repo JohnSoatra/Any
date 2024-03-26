@@ -1,5 +1,5 @@
 import React from 'react';
-import Any, { __Test,  } from '@soatra/any/dist';
+import Any, { __Test,  } from '@soatra/any';
 
 const MyCom = () => {
     return (
