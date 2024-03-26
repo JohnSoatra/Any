@@ -2,10 +2,8 @@
   "name": "react",
   "version": "0.1.0",
   "dependencies": {
-    "react": "file:../node_modules/react",
-    "react-dom": "^18.2.0",
-    "react-scripts": "^5.0.1",
-    "soatra": "file:../"
+    "@soatra/any": "file:../",
+    "react-scripts": "^5.0.1"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -15,8 +13,11 @@
   },
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "@rollup/plugin-terser": "^0.4.4",
     "@types/react": "^18.2.70",
     "@types/react-dom": "^18.2.22",
+    "rollup-plugin-peer-deps-external": "^2.2.4",
+    "tailwindcss": "^3.4.1",
     "typescript": "^3.9.10"
   },
   "browserslist": {
