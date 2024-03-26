@@ -2,11 +2,11 @@
 
 # build
 /dist
+/output
 
 # test
 /test
 
-# react
 # /react
 
 # hidden

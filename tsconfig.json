@@ -1,5 +1,5 @@
 {
-    "compilerOptions": {
+  "compilerOptions": {
         "jsx": "react-jsx",
         "lib": [
             "dom",
@@ -16,11 +16,8 @@
         "declaration": true,
         "isolatedModules": true,
         "noEmit": true,
-        "rootDir": "./src",
-        "outDir": "./dist",
-        "paths": {
-            "@/*": ["./src/*"]
-        },
+        "rootDir": "./lib",
+        "outDir": "./dist"
     },
-    "include": ["src"],
+    "include": ["lib"]
 }

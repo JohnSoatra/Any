@@ -1,22 +1,7 @@
-/node_modules
+*
 
-# build
-/src
-
-# test
-/test
-
-# react
-react
-
-# hidden
-.env
-.DS_Store
-
-# typescript
-tsconfig.json
-tsup.config.ts
-
-# config file
-nodemon.json
-tailwind.config.js
+!dist
+!package.json
+!package-lock.json
+!README.md
+!LICENCE
