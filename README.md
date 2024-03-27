@@ -1,12 +1,13 @@
 # `Any`
 
-Any is a JavaScript library for creating React Animating Components.
+Any is a [React](https://react.dev/) component library used to create animating components.
 
 The `@soatra/any` package contains only one component \<Any /> and some of necessary types. With component \<Any />, you can build however animating components as you want.
 
 **Note:**
-- You have to define style in css files for classes that you used in all states (from and to) to make the animation works.
-- But you don't need to do this, if you're using any css frameworks such as: Tailwind CSS, Bootstrap,... beacuse they will do this for you.
+- Any animates components by classes used in states (from and to).
+- You have to define style for all classes used in all states and you have to handle class merging by yourself. To handle class merging, you have to set value for props **mergeConfigExtension** or **mergeCreateConfig**.
+- But you don't have to do this, if you're using [Tailwind CSS](https://tailwindcss.com/).
 
 ## Usage
 
