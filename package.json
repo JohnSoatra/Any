@@ -1,6 +1,6 @@
 {
   "name": "@soatra/any",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "repository": {
     "url": "https://github.com/johnsoatra/any"
@@ -12,6 +12,8 @@
   },
   "keywords": [
     "animation",
+    "transition",
+    "tailwind",
     "react"
   ],
   "author": "Soatra",
