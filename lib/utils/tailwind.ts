@@ -1,5 +1,5 @@
-import Vars from "../constants/vars";
 import { ClassNameValue, Config, extendTailwindMerge } from "tailwind-merge";
+import Vars from "../constants/vars";
 
 function tailwindMerge(
     classLists: ClassNameValue[],

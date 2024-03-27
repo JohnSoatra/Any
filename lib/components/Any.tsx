@@ -1,15 +1,15 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { Config } from 'tailwind-merge';
 import type { Easing, To, ToNoStart } from '../types';
 import { tailwindMerge } from '../utils/tailwind';
 import useReached from '../hooks/useReached';
-import { Config } from 'tailwind-merge';
 
-type Tags = keyof JSX.IntrinsicElements;
+export type AnyTags = keyof JSX.IntrinsicElements;
 
 type RemoveProps = 'from'|'to'|'children'|'dangerouslySetInnerHTML'|'as'|'start'|'onStart'|'onComplete'|'property'
     |'style'|'mergeConfigExtension'|'mergeCreateConfig';
 
-type DefaultProps<T extends Tags> = {
+type DefaultProps<T extends AnyTags> = {
     from: string,
     to: [ToNoStart, ...To[]],
     children: React.ReactNode,
@@ -37,13 +37,13 @@ type DefaultProps<T extends Tags> = {
     onComplete?: () => void,
 }
 
-type PropsWithTag<T extends Tags> = Omit<JSX.IntrinsicElements[T], RemoveProps> & DefaultProps<T>;
+type PropsWithTag<T extends AnyTags> = Omit<JSX.IntrinsicElements[T], RemoveProps> & DefaultProps<T>;
 
-type PropsNoTag<T extends Tags> = Omit<JSX.IntrinsicElements['div'], RemoveProps> & Omit<DefaultProps<T>, 'as'> & {
+type PropsNoTag<T extends AnyTags> = Omit<JSX.IntrinsicElements['div'], RemoveProps> & Omit<DefaultProps<T>, 'as'> & {
     as?: undefined
 }
 
-type Props<T extends Tags> = PropsWithTag<T>|PropsNoTag<T>;
+export type AnyProps<T extends AnyTags> = PropsWithTag<T>|PropsNoTag<T>;
 
 type AnimatedProps = {
     className: string,
@@ -52,7 +52,6 @@ type AnimatedProps = {
     animatedProperties?: [string, ...string[]]
 }
 
-// this function let tailwind knows how to create easing classes
 function EasingClass(easing: Easing): `ease-${Easing}` {
     switch (easing) {
         case 'in': return 'ease-in';
@@ -115,7 +114,7 @@ function animatedProps({
     });
 }
 
-const Any = function<T extends Tags>({
+const Any = function<T extends AnyTags>({
     from,
     to,
     start,
@@ -127,7 +126,7 @@ const Any = function<T extends Tags>({
     onStart,
     onComplete,
     ...props
-}: Props<T>) {
+}: AnyProps<T>) {
     const [Tag]: ['div' | (() => JSX.Element), React.Dispatch<any>] = useState(as === undefined ? 'div' : as as any);
     const [index, setIndex] = useState(-1);
     const [calledOnStart, setCalledOnStart] = useState(false);
