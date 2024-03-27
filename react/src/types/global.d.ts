@@ -1,2 +1,2 @@
-declare module '@soatra/any';
-declare module '*.css';
+// declare module '@soatra/any';
+// declare module '*.css';
