@@ -17,7 +17,8 @@
         "isolatedModules": true,
         "noEmit": true,
         "rootDir": "./lib",
-        "outDir": "./dist"
+        "outDir": "./dist",
+        "allowSyntheticDefaultImports": true
     },
     "include": ["lib"]
 }

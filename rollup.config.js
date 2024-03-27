@@ -20,7 +20,7 @@ export default [
             file: 'dist/index.js',
             format: "cjs",
             sourcemap: true,
-            exports: 'named'
+            exports: 'auto'
         },
         {
             file: 'dist/index.mjs',
@@ -46,7 +46,7 @@ export default [
         input: "lib/index.ts",
         output: [
             {
-                file: "dist/index.d.mts",
+                file: "dist/index.d.ts",
                 format: "es"
             },
         ],

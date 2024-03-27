@@ -10,4 +10,4 @@ export default defineConfig({
     minify: process.env.NODE_ENV === 'develop',
     injectStyle: JSON.parse(JSON.stringify({})),
     outDir: 'output'
-})
+});
