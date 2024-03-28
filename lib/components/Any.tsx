@@ -190,12 +190,16 @@ const Any = function<T extends AnyTags>({
         let tempStartProperty: string;
         
         const onTransitionStart = (evt: TransitionEvent) => {
+            evt.stopImmediatePropagation();
+
             tempStartProperty = evt.propertyName;
             setStartProperty(evt.propertyName);
             setAnimating(true);
         }
 
         const onTransitionEnd = (evt: TransitionEvent) => {
+            evt.stopImmediatePropagation();
+
             if (evt.propertyName === tempStartProperty || evt.propertyName === startProperty) {
                 if (index > -1 && to[index] && to[index].onEnd) {
                     to[index].onEnd!();
