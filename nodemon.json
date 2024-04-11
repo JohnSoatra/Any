@@ -1,5 +1,5 @@
 {
-    "watch": ["lib"],
+    "watch": ["src"],
     "ext": "*",
-    "exec": "npm run build && npm run start --prefix $(pwd)/react"
+    "exec": "npm run build"
 }

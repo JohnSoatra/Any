@@ -14,11 +14,14 @@
         "moduleResolution": "Node",
         "module": "ESNext",
         "declaration": true,
-        "isolatedModules": true,
+        // "isolatedModules": true,
         "noEmit": true,
-        "rootDir": "./lib",
+        "rootDir": "./src",
         "outDir": "./dist",
         "allowSyntheticDefaultImports": true
     },
-    "include": ["lib"]
+    "include": [
+        "src",
+        "rollup.config.ts"
+    ]
 }

@@ -7,43 +7,45 @@ import babel from "@rollup/plugin-babel";
 import peerDepsExternal from "rollup-plugin-peer-deps-external";
 import terser from "@rollup/plugin-terser";
 import dts from "rollup-plugin-dts";
+import del from 'rollup-plugin-delete';
 
 dotenv.config();
 
-const developMode = process.env.NODE_ENV === 'develop';
+const developMode = process.env.NODE_ENV === 'develop'; 
 
-export default [
+const options = [
     {
-        input: "lib/index.ts",
+        input: "src/exports.ts",
         output: [
-        {
-            file: 'dist/index.js',
-            format: "cjs",
-            sourcemap: true,
-            exports: 'auto'
-        },
-        {
-            file: 'dist/index.mjs',
-            format: "esm",
-            sourcemap: true,
-        },
+            {
+                file: 'dist/index.js',
+                format: "cjs",
+                exports: 'named',
+            },
+            {
+                file: 'dist/index.mjs',
+                format: "esm",
+            },
         ],
         plugins: [
-            typescript({ tsconfig: './tsconfig.json' }),
+            typescript({
+                tsconfig: './tsconfig.json',
+            }),
             peerDepsExternal(),
             resolve(),
             commonjs(),
             babel({
                 extensions: ['.js', '.jsx', '.ts', '.tsx'],
-                exclude: 'node_modules/**'
+                exclude: 'node_modules/**',
+                babelHelpers: 'bundled'
             }),
             postcss(),
             ...(developMode ? [] : [terser()]),
         ],
-        external: ["react", "react-dom"],
+        external: ["react", "react-dom"]
     },
     {
-        input: "lib/index.ts",
+        input: "src/exports.ts",
         output: [
             {
                 file: "dist/index.d.ts",
@@ -51,8 +53,17 @@ export default [
             },
         ],
         plugins: [
-            dts()
+            dts(),
+            del({
+                targets: [
+                    'dist/App.d.ts',
+                    'dist/exports.d.ts',
+                    'dist/types.d.ts'
+                ]
+            })
         ],
         external: [/\.css$/],
     },
 ];
+
+export default options;

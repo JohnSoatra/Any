@@ -3,11 +3,11 @@
 # build
 /dist
 /output
+/build
 
 # test
 /test
-
-# /react
+/playground
 
 # hidden
 .env
