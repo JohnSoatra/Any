@@ -57,6 +57,7 @@ type ToBegin<B extends Breakpoints | undefined> = {
     duration: number | DurationValueBreakpoints<B>;
     easing: Easing | EasingValueBreakpoints<B>;
     delay?: number | DelayValueBreakpoints<B>;
+    on?: On|On[],
     onEnd?: () => void;
 };
 
@@ -121,6 +122,11 @@ type AllValueBreakpoints<B extends Breakpoints> =
     | DurationValueBreakpoints<B>
     | EasingValueBreakpoints<B>;
 
+type On = {
+    complete: number,
+    task: () => void
+}
+
 export type {
     AllTags,
     To,
@@ -134,4 +140,5 @@ export type {
     DurationValueBreakpoints,
     EasingValueBreakpoints,
     AllValueBreakpoints,
+    On
 };

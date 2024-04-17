@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import type { AllTags, Breakpoints, To, Tos } from "../types";
+import type { AllTags, Breakpoints, To, Tos, On } from "../types";
 import useReached from "../hooks/useReached";
 import { TailwindMergeType, tailwindMerge } from "../utils/tailwind";
 import {
@@ -9,6 +9,8 @@ import {
     getProperty,
     getTimeoutDelay,
 } from "../utils/any";
+import isArray from "../utils/array";
+import { clearTimeouts } from "../utils/timeout";
 
 type RemoveProps =
     | "from"
@@ -23,7 +25,7 @@ type RemoveProps =
     | "mergeConfig"
     | "breakpoints"
     | "onStart"
-    | "onComplete";
+    | "onEnd";
 
 type SameProps_1 = {
     from: string;
@@ -32,7 +34,7 @@ type SameProps_1 = {
     animatedProperties?: [string, ...string[]];
     mergeConfig?: TailwindMergeType;
     onStart?: () => void;
-    onComplete?: () => void;
+    onEnd?: () => void;
 };
 
 type SameProps_2<B extends Breakpoints> =
@@ -130,7 +132,7 @@ const Any = function <T extends AllTags, B extends Breakpoints>({
     animatedProperties,
     mergeConfig,
     onStart,
-    onComplete,
+    onEnd,
     ...props
 }: AnyProps<T, B>) {
     const [Tag]: ["div" | (() => JSX.Element), React.Dispatch<any>] = useState(
@@ -144,6 +146,7 @@ const Any = function <T extends AllTags, B extends Breakpoints>({
     const ref = useRef(null);
     const isReached = useReached(ref);
     const timeoutRef = useRef<NodeJS.Timeout>();
+    const timeoutsRef = useRef<NodeJS.Timeout[]>();
 
     useEffect(() => {
         if (start === false) {
@@ -206,7 +209,7 @@ const Any = function <T extends AllTags, B extends Breakpoints>({
                 })
             );
         }
-    }, [index, to, mergeConfig]);
+    }, [index, to, props.className, mergeConfig]);
 
     useEffect(() => {
         let current: HTMLElement | null = null;
@@ -216,14 +219,24 @@ const Any = function <T extends AllTags, B extends Breakpoints>({
                 evt.stopImmediatePropagation();
 
                 if (timeoutRef.current === undefined) {
-                    clearTimeout(timeoutRef.current);
+                    clearTimeouts([
+                        timeoutRef.current,
+                        ...(timeoutsRef.current || []),
+                    ]);
                     setAnimating(true);
+
+                    const timeoutDelay = getTimeoutDelay({
+                        index,
+                        to,
+                        breakpoints,
+                    });
+                    const currentTo = to[index];
 
                     timeoutRef.current = setTimeout(() => {
                         timeoutRef.current = undefined;
 
-                        if (to[index].onEnd !== undefined) {
-                            to[index].onEnd!();
+                        if (currentTo.onEnd !== undefined) {
+                            currentTo.onEnd();
                         }
 
                         if (
@@ -233,7 +246,50 @@ const Any = function <T extends AllTags, B extends Breakpoints>({
                             setIndex(index + 1);
                             setAnimating(true);
                         }
-                    }, getTimeoutDelay({ index, to, breakpoints }));
+                    }, timeoutDelay);
+
+                    if (currentTo.on !== undefined) {
+                        const newTimeouts = [];
+                        const duration = getDuration({
+                            index,
+                            to,
+                            breakpoints,
+                            ended,
+                        });
+
+                        if (isArray(currentTo.on)) {
+                            for (let on of currentTo.on as On[]) {
+                                const complete =
+                                    on.complete < 0
+                                        ? 0
+                                        : on.complete > 1
+                                        ? 1
+                                        : on.complete;
+
+                                newTimeouts.push(
+                                    setTimeout(() => {
+                                        on.task();
+                                    }, complete * duration)
+                                );
+                            }
+                        } else {
+                            const on = currentTo.on as On;
+                            const complete =
+                                on.complete < 0
+                                    ? 0
+                                    : on.complete > 1
+                                    ? 1
+                                    : on.complete;
+
+                            newTimeouts.push(
+                                setTimeout(() => {
+                                    on.task();
+                                }, complete * duration)
+                            );
+                        }
+
+                        timeoutsRef.current = [...newTimeouts];
+                    }
                 }
             }
         };
@@ -242,10 +298,14 @@ const Any = function <T extends AllTags, B extends Breakpoints>({
             if (evt.target === ref.current) {
                 evt.stopImmediatePropagation();
 
-                if (index == to.length - 1 && timeoutRef.current === undefined) {
+                setAnimating(false);
+
+                if (index === to.length - 1) {
                     setEnded(true);
-                    setAnimating(false);
-                    onComplete && onComplete();
+
+                    if (onEnd) {
+                        onEnd();
+                    }
                 }
             }
         };
@@ -258,11 +318,14 @@ const Any = function <T extends AllTags, B extends Breakpoints>({
 
         return () => {
             if (current) {
-                current.removeEventListener("transitionstart", onTransitionStart);
+                current.removeEventListener(
+                    "transitionstart",
+                    onTransitionStart
+                );
                 current.removeEventListener("transitionend", onTransitionEnd);
             }
         };
-    }, [index, to, onComplete]);
+    }, [index, to, breakpoints, ended, onEnd]);
 
     useEffect(() => {
         if (
