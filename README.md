@@ -1,19 +1,13 @@
 # `Any`
 
-Any is a [React](https://react.dev/) component library used to create animating components.
-
-The `@soatra/any` package contains only one component \<Any /> and some of necessary types. With component \<Any />, you can build however animating components as you want.
-
-**Note:**
-- Any animates components by classes used in states (from and to).
-- You have to define style for all classes used in all states and you have to handle class merging by yourself. To handle class merging, you have to set value for props **mergeConfigExtension** or **mergeCreateConfig**.
-- But you don't have to do this, if you're using [Tailwind CSS](https://tailwindcss.com/).
+Any is a **[React](https://react.dev/)** component library used to create animating components.
+Any helps you create animating components using **[Tailwind CSS](https://tailwindcss.com/)**.
 
 ## Usage
 
 ### Default:
 ```js
-import Any from '@soatra/any';
+import Any, { Easings } from '@soatra/any';
 
 const MyComponent = () => {
     return (
@@ -24,7 +18,7 @@ const MyComponent = () => {
                     {
                         state: 'opacity-100',
                         duration: 1000,
-                        easing: 'linear'
+                        easing: Easings.Linear
                     },
                 ]}>
                 <p>Animation</p>
@@ -80,16 +74,13 @@ const MyComponent = () => {
             {
                 state: 'opacity-50',
                 duration: 1000,
-                easing: 'linear',
-                // here, you can define condition for moving state
+                easing: Easings.Linear
             },
             {
                 state: 'opacity-100',
                 duration: 1000,
-                easing: 'linear',
-                // here too
+                easing: Easings.Linear
             },
-            // ...
         ]}
         ...>
         ...
@@ -100,39 +91,71 @@ const MyComponent = () => {
 ## Props
 
 ### from:
-Type: `string` Required
+Type: `string`
 
-The initial state (class).
+The initial state.
 
 ### to:
-Type: `To[]` Required
+Type: `To[]`
 
 `To`:\
-&emsp;start: `boolean | undefined`\
 &emsp;state: `string`\
 &emsp;duration: `number`\
-&emsp;delay: `number | undefined`\
-&emsp;easing: `Easing`\
-&emsp;onEnd: `(() => void) | undefined`
+&emsp;easing: `Easing`
+&emsp;delay?: `number`\
+&emsp;start?: `boolean`\
+&emsp;after?: `number`\
+&emsp;on?: `On | On[]`
+&emsp;onEnd?: `() => void`
 
-The Flow-to states.
+**Easing**:
+```
+"linear" |
+"step-start" |
+"step-end" |
+"ease" |
+"ease-in" |
+"ease-out" |
+"ease-in-out" |
+"steps(
+    number,
+    "jump-start" |
+    "jump-end" |
+    "jump-end" |
+    "jump-both" |
+    "jump-none"
+)" |
+"cubic-bezier(
+    number,
+    number,
+    number,
+    number
+)"
+```
+**On**:
+```
+{
+    complete: number,
+    task: () => void
+}
+```
+
+The Flow-to state.
 
 ### start:
-Type: `boolean` Default: `undefinded`
+Type: `boolean | undefined`
 
 A state variable is used to start or restart the animation.
 
 ### onStart:
-Type: `() => void` Default: `undefinded`
+Type: `() => void | undefined`
 
 A function that is emited when animation is starting.
 
 ### onEnd:
-Type: `() => void` Default: `undefinded`
+Type: `() => void | undefined`
 
 A function that is emited when animation is Completing.
-
-###### ...
 
 ## License
 

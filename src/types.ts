@@ -62,8 +62,8 @@ type ToBegin<B extends Breakpoints | undefined> = {
 };
 
 type To<B extends Breakpoints | undefined> = ToBegin<B> & {
-    after?: number;
     start?: boolean;
+    after?: number;
 };
 
 type Tos<B extends Breakpoints | undefined> = [ToBegin<B>, ...To<B>[]];
