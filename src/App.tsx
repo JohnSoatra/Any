@@ -3,50 +3,46 @@ import Any, { Easings } from "./exports";
 
 const App = () => {
     const [start, setStart] = useState(false);
+    const [startTop, setStartTop] = useState(false);
 
     return (
         <div className="w-full flex justify-center py-10">
             <Any
-                start={start}
-                from="text-red-500"
+                from="opacity-0"
                 to={[
                     {
-                        state: 'text-blue-500',
-                        duration: {
-                            xs: 1000
-                        },
-                        easing: {
-                            xs: Easings.BackIn
-                        }
+                        state: 'opacity-100',
+                        duration: 350,
+                        easing: Easings.ExpoOut
                     },
                     {
-                        state: 'text-yellow-500',
-                        duration: {
-                            xs: 1000
-                        },
-                        easing: {
-                            xs: Easings.BackIn
-                        }
-                    },
-                    {
-                        state: 'text-cyan-500',
-                        duration: {
-                            xs: 1000
-                        },
-                        easing: {
-                            xs: Easings.BackIn
-                        }
+                        start: startTop,
+                        state: 'opacity-0',
+                        duration: 350,
+                        easing: Easings.ExpoOut,
                     }
-                ]}
-                onStart={() => {
-                    console.log('onstart');
-                    setStart(true);
-                }}
-                onComplete={() => {
-                    console.log('on compelte');
-                    setStart(false);
-                }}>
-                <p>Hello world</p>
+                ]}>
+                <Any
+                    as="p"
+                    from="translate-x-[300px]"
+                    to={[
+                        {
+                            state: '-translate-x-[300px]',
+                            duration: 3000,
+                            easing: Easings.Cubic(0,.82,1,.19),
+                            on: [
+                                {
+                                    complete: 0.9,
+                                    task: () => {
+                                        console.log('on 80%');
+                                        setStartTop(true);
+                                    }
+                                }
+                            ]
+                        }
+                    ]}>
+                    Hello world
+                </Any>
             </Any>
         </div>
     );
