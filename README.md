@@ -65,7 +65,7 @@ const MyComponent = () => {
         ...
         start={start}
         onStart={() => setStart(true)}
-        onComplete={() => setStart(false)}>
+        onEnd={() => setStart(false)}>
         ...
     </Any>
 ...
@@ -127,7 +127,7 @@ Type: `() => void` Default: `undefinded`
 
 A function that is emited when animation is starting.
 
-### onComplete:
+### onEnd:
 Type: `() => void` Default: `undefinded`
 
 A function that is emited when animation is Completing.
