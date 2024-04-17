@@ -1,19 +1,28 @@
 {
   "name": "@soatra/any",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "React Component for animating.",
   "repository": {
     "url": "https://github.com/johnsoatra/any"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "dev": "react-scripts start",
+    "react-build": "react-scripts build",
+    "react-serve": "serve ./build",
     "build": "rollup -c rollup.config.ts",
     "rebuild": "rm -rf dist && rollup -c rollup.config.ts",
-    "dev": "rm -rf dist && npm run build && npm run start --prefix $(pwd)/react & nodemon",
-    "deploy": "NODE_ENV=production rm -rf dist && npm run build && npm publish",
-    "react-build": "react-scripts build",
-    "react-serve": "serve ./build"
+    "deploy": "NODE_ENV=production rm -rf dist && npm run build && npm publish"
   },
+  "eslintConfig": {
+    "extends": [
+      "react-app"
+    ],
+    "ignorePatterns": [
+      "src/App.tsx",
+      "src/index.tsx"
+    ]
+  },
+  
   "keywords": [
     "animation",
     "transition",
