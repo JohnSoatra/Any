@@ -4,7 +4,9 @@ function useVisible(ref: RefObject<Element>, rootMargin = "0px") {
     const [isVisible, setIsVisible] = useState(false);
 
     useEffect(() => {
-        if (ref.current === null) {
+        const currentRef = ref.current;
+
+        if (currentRef === null) {
             return;
         }
 
@@ -13,16 +15,16 @@ function useVisible(ref: RefObject<Element>, rootMargin = "0px") {
             { rootMargin }
         )
 
-        observer.observe(ref.current);
+        observer.observe(currentRef);
 
         return () => {
-            if (ref.current == null) {
+            if (currentRef == null) {
                 return;
             }
 
-            observer.unobserve(ref.current);
+            observer.unobserve(currentRef);
         }
-    }, [ref.current, rootMargin]);
+    }, [ref, rootMargin]);
 
     return isVisible;
 }

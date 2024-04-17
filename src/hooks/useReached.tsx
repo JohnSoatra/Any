@@ -20,7 +20,7 @@ function useReached(ref: RefObject<Element>, rootMargin = "0px") {
         return () => {
             setMounted(false);
         }
-    }, [isVisible]);
+    }, [isVisible, mounted, reached]);
 
     return reached;
 }
