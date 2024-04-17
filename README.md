@@ -121,9 +121,8 @@ Type: `To[]`
     number,
     "jump-start" |
     "jump-end" |
-    "jump-end" |
-    "jump-both" |
-    "jump-none"
+    "jump-none" |
+    "jump-both"
 )" |
 "cubic-bezier(
     number,
