@@ -101,11 +101,11 @@ Type: `To[]`
 `To`:\
 &emsp;state: `string`\
 &emsp;duration: `number`\
-&emsp;easing: `Easing`
+&emsp;easing: `Easing`\
 &emsp;delay?: `number`\
 &emsp;start?: `boolean`\
 &emsp;after?: `number`\
-&emsp;on?: `On | On[]`
+&emsp;on?: `On | On[]`\
 &emsp;onEnd?: `() => void`
 
 **Easing**:
