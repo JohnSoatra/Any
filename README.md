@@ -147,12 +147,12 @@ Type: `boolean | undefined`
 A state variable is used to start or restart the animation.
 
 ### onStart:
-Type: `() => void | undefined`
+Type: `(() => void) | undefined`
 
 A function that is emited when animation is starting.
 
 ### onEnd:
-Type: `() => void | undefined`
+Type: `(() => void) | undefined`
 
 A function that is emited when animation is Completing.
 
