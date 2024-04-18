@@ -176,42 +176,39 @@ function getTimeoutDelay<B extends Breakpoints>({
         return 0;
     }
 
-    if (index < to.length - 1) {
-        const after = (to[index + 1] as To<B>).after;
-        const duration = to[index].duration;
-        let durationNumber: number;
+    const after =
+        index < to.length - 1 ? (to[index + 1] as To<B>).after : undefined;
+    const duration = to[index].duration;
+    let durationNumber: number;
 
-        if (typeof duration === "number") {
-            durationNumber = duration;
-        } else {
-            const point = getCurrentBreakpoints({
-                breakpoints,
-                valueBreakpoints: duration,
-            });
+    if (typeof duration === "number") {
+        durationNumber = duration;
+    } else {
+        const point = getCurrentBreakpoints({
+            breakpoints,
+            valueBreakpoints: duration,
+        });
 
-            if (point !== null) {
-                const _duration = duration[point];
+        if (point !== null) {
+            const _duration = duration[point];
 
-                if (_duration === undefined) {
-                    throw Error("duration cannot be undefined.");
-                }
-
-                durationNumber = _duration;
-            } else {
-                durationNumber = duration["xs"];
+            if (_duration === undefined) {
+                throw Error("duration cannot be undefined.");
             }
-        }
 
-        if (after === undefined || after <= 0) {
-            return durationNumber;
-        } else if (after > 1) {
-            return durationNumber;
+            durationNumber = _duration;
+        } else {
+            durationNumber = duration["xs"];
         }
-
-        return after * durationNumber;
     }
 
-    return 0;
+    if (after === undefined || after <= 0) {
+        return durationNumber;
+    } else if (after > 1) {
+        return durationNumber;
+    }
+
+    return after * durationNumber;
 }
 
 export { getProperty, getDuration, getEasing, getDelay, getTimeoutDelay };
