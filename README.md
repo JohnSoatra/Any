@@ -102,11 +102,11 @@ Type: `To[]`
 &emsp;state: `string`\
 &emsp;duration: `number`\
 &emsp;easing: `Easing`\
-&emsp;delay?: `number`\
-&emsp;start?: `boolean`\
-&emsp;after?: `number`\
-&emsp;on?: `On | On[]`\
-&emsp;onEnd?: `() => void`
+&emsp;delay: `number | undefined`\
+&emsp;start: `boolean | undefined`\
+&emsp;after: `number | undefined`\
+&emsp;on: `On | On[] | undefined`\
+&emsp;onEnd: `(() => void) | undefined`
 
 **Easing**:
 ```
