@@ -1,11 +1,12 @@
 {
   "name": "@soatra/any",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "React Component for animating.",
   "repository": {
     "url": "https://github.com/johnsoatra/any"
   },
   "scripts": {
+    "start": "react-scripts start",
     "dev": "react-scripts start",
     "react-build": "react-scripts build",
     "react-serve": "serve ./build",
