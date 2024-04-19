@@ -100,26 +100,28 @@ function animatedProps<B extends Breakpoints>({
         breakpoints,
     });
 
-    return {
-        transitionProperty: property,
-        msTransitionProperty: property,
-        MozTransitionProperty: property,
-        WebkitTransitionProperty: property,
+    return index === -1 || ended === true
+        ? undefined
+        : {
+              transitionProperty: property,
+              msTransitionProperty: property,
+              MozTransitionProperty: property,
+              WebkitTransitionProperty: property,
 
-        transitionDuration: duration + "ms",
-        msTransitionDuration: duration + "ms",
-        MozTransitionDuration: duration + "ms",
-        WebkitTransitionDuration: duration + "ms",
+              transitionDuration: duration + "ms",
+              msTransitionDuration: duration + "ms",
+              MozTransitionDuration: duration + "ms",
+              WebkitTransitionDuration: duration + "ms",
 
-        transitionDelay: delay + "ms",
-        msTransitionDelay: delay + "ms",
-        MozTransitionDelay: delay + "ms",
-        WebkitTransitionDelay: delay + "ms",
+              transitionDelay: delay + "ms",
+              msTransitionDelay: delay + "ms",
+              MozTransitionDelay: delay + "ms",
+              WebkitTransitionDelay: delay + "ms",
 
-        transitionTimingFunction: easing,
-        MozTransitionTimingFunction: easing,
-        WebkitTransitionTimingFunction: easing,
-    };
+              transitionTimingFunction: easing,
+              MozTransitionTimingFunction: easing,
+              WebkitTransitionTimingFunction: easing,
+          };
 }
 
 const Any = function <T extends AllTags, B extends Breakpoints>({
