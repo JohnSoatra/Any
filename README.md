@@ -1,7 +1,12 @@
-# `Any`
+# Any
 
 Any is a **[React](https://react.dev/)** component library used to create animating components.
 Any helps you create animating components using **[Tailwind CSS](https://tailwindcss.com/)**.
+
+**Main updates** in this version:\
+1\. **breakpoints**: set window screen size breakpoints .\
+2\. **after**: move to next state while current state is animating.\
+3\. **on**: handle at a specific point within the animation.
 
 ## Usage
 
@@ -88,73 +93,67 @@ const MyComponent = () => {
 ...
 ```
 
-## Props
+## Properties
 
-### from:
+### -- from:
 Type: `string`
 
-The initial state.
+***is used to set initial state.***
 
-### to:
+### -- to:
 Type: `To[]`
 
 `To`:\
 &emsp;state: `string`\
-&emsp;duration: `number`\
-&emsp;easing: `Easing`\
-&emsp;delay: `number | undefined`\
+&emsp;duration: `number | DurationValueBreakpoints`\
+&emsp;easing: `Easing | EasingValueBreakpoints`\
+&emsp;delay: `number | DelayValueBreakpoints | undefined`\
 &emsp;start: `boolean | undefined`\
 &emsp;after: `number | undefined`\
 &emsp;on: `On | On[] | undefined`\
 &emsp;onEnd: `(() => void) | undefined`
 
-**Easing**:
-```
-"linear" |
-"step-start" |
-"step-end" |
-"ease" |
-"ease-in" |
-"ease-out" |
-"ease-in-out" |
-"steps(
-    number,
-    "jump-start" |
-    "jump-end" |
-    "jump-none" |
-    "jump-both"
-)" |
-"cubic-bezier(
-    number,
-    number,
-    number,
-    number
-)"
-```
-**On**:
-```
-{
-    complete: number,
-    task: () => void
-}
-```
+***is used to set flow-to states.***
 
-The Flow-to state.
-
-### start:
+### -- start:
 Type: `boolean | undefined`
 
-A state variable is used to start or restart the animation.
+***is used to start animation.***
 
-### onStart:
+### -- as:
+Type: `string | undefined`
+
+***is used to set tag name for the element.***
+
+### -- instant:
+Type: `boolean | undefined`
+
+***is used to start animation instantly.***
+
+### -- animatedProperties:
+Type: `string[] | undefined`
+
+***is used to set animation properties.***
+
+### -- mergeConfig:
+Type: `TailwindMergeType | undefined`
+
+***is used to set tailwind merging configuration.***
+
+### -- breakpoints:
+Type: `Breakpoints | undefined`
+
+***is used to set window screen size breakpoints.***
+
+### -- onStart:
 Type: `(() => void) | undefined`
 
-A function that is emited when animation is starting.
+***is used to handle when animation is starting.***
 
-### onEnd:
+### -- onEnd:
 Type: `(() => void) | undefined`
 
-A function that is emited when animation is Completing.
+***is used to handle when animation is ending.***
 
 ## License
 
