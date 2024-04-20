@@ -1,12 +1,11 @@
 # Any
 
-Any is a **[React](https://react.dev/)** component library used to create animating components.
-Any helps you create animating components using **[Tailwind CSS](https://tailwindcss.com/)**.
+Any is a **[React](https://react.dev/)** component library used to create animating components with the help of **[Tailwind CSS](https://tailwindcss.com/)**.
 
-**Main updates** in this version:\
-1\. **breakpoints**: set window screen size breakpoints .\
-2\. **after**: move to next state while current state is animating.\
-3\. **on**: handle at a specific point within the animation.
+**Main updates** in this version:
+1. **breakpoints**: set breakpoints for duration, delay and easing.
+2. **after**: move to next state while current state is animating.
+3. **on**: handle at a specific point within the animation.
 
 ## Usage
 
@@ -154,6 +153,15 @@ Type: `(() => void) | undefined`
 Type: `(() => void) | undefined`
 
 ***is used to handle when animation is ending.***
+
+##
+
+<div>
+    <i style="color: red;"><b>*Note:</b></i>
+    <i>To make all these work, you must set up <b>Tailwind CSS</b> in your <b>React App</b>.</i>
+</div>
+
+##
 
 ## License
 
