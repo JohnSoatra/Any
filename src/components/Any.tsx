@@ -1,4 +1,3 @@
-'use client';
 import React, { useEffect, useRef, useState } from "react";
 import type { AllTags, Breakpoints, To, Tos, On } from "../types";
 import useReached from "../hooks/useReached";
