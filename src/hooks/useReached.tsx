@@ -2,25 +2,14 @@ import { RefObject, useEffect, useState } from "react";
 import useVisible from "./useVisible";
 
 function useReached(ref: RefObject<Element>, rootMargin = "0px") {
-    const [reached, setReached] = useState(false);
-    const [mounted, setMounted] = useState(false);
     const isVisible = useVisible(ref, rootMargin);
+    const [reached, setReached] = useState(false);
 
     useEffect(() => {
-        setMounted(true);
-
-        if (mounted) {
-            setTimeout(() => {
-                if (isVisible && reached === false) {
-                    setReached(true);
-                }
-            }, 0);
+        if (isVisible === true) {
+            setReached(true);
         }
-
-        return () => {
-            setMounted(false);
-        }
-    }, [isVisible, mounted, reached]);
+    }, [isVisible]);
 
     return reached;
 }

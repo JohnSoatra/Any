@@ -1,7 +1,7 @@
 import { RefObject, useEffect, useState } from "react";
 
 function useVisible(ref: RefObject<Element>, rootMargin = "0px") {
-    const [isVisible, setIsVisible] = useState(false);
+    const [isVisible, setIsVisible] = useState(undefined as undefined|boolean);
 
     useEffect(() => {
         const currentRef = ref.current;
@@ -18,7 +18,7 @@ function useVisible(ref: RefObject<Element>, rootMargin = "0px") {
         observer.observe(currentRef);
 
         return () => {
-            if (currentRef == null) {
+            if (currentRef === null) {
                 return;
             }
 
