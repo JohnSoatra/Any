@@ -43,7 +43,11 @@ const options = defineConfig([
                 babelHelpers: 'bundled'
             }),
             postcss(),
-            ...(developMode ? [] : [terser()]),
+            ...(developMode ? [] : [terser({
+                compress: {
+                    directives: false
+                }  
+            })]),
         ],
         external: ["react", "react-dom"]
     },
