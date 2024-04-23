@@ -8,12 +8,13 @@ import peerDepsExternal from "rollup-plugin-peer-deps-external";
 import terser from "@rollup/plugin-terser";
 import dts from "rollup-plugin-dts";
 import del from 'rollup-plugin-delete';
+import { defineConfig } from 'rollup';
 
 dotenv.config();
 
 const developMode = process.env.NODE_ENV === 'develop'; 
 
-const options = [
+const options = defineConfig([
     {
         input: "src/exports.ts",
         output: [
@@ -21,10 +22,12 @@ const options = [
                 file: 'dist/index.js',
                 format: "cjs",
                 exports: 'named',
+                banner: `'use client';`
             },
             {
                 file: 'dist/index.mjs',
                 format: "esm",
+                banner: `'use client';`
             },
         ],
         plugins: [
@@ -64,6 +67,6 @@ const options = [
         ],
         external: [/\.css$/],
     },
-];
+]);
 
 export default options;
