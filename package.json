@@ -1,6 +1,6 @@
 {
   "name": "@soatra/any",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "React Component for animating.",
   "repository": {
     "url": "https://github.com/johnsoatra/any"
@@ -23,7 +23,6 @@
       "src/index.tsx"
     ]
   },
-  
   "keywords": [
     "animation",
     "transition",
@@ -33,7 +32,6 @@
   "author": "Soatra",
   "license": "MIT",
   "dependencies": {
-    "tailwind-config": "^0.1.2",
     "tailwind-merge": "^2.2.2"
   },
   "peerDependencies": {

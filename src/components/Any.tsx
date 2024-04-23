@@ -1,3 +1,4 @@
+'use client';
 import React, { useEffect, useRef, useState } from "react";
 import type { AllTags, Breakpoints, To, Tos, On } from "../types";
 import useReached from "../hooks/useReached";
@@ -71,12 +72,14 @@ function animatedProps<B extends Breakpoints>({
     to,
     index,
     ended,
+    animating,
     breakpoints,
     animatedProperties,
 }: {
     to: Tos<B>;
     index: number;
     ended: boolean;
+    animating: boolean;
     animatedProperties?: [string, ...string[]];
     breakpoints?: B;
 }): React.HTMLAttributes<HTMLDivElement>["style"] {
@@ -100,28 +103,30 @@ function animatedProps<B extends Breakpoints>({
         breakpoints,
     });
 
-    return index === -1 || ended === true
-        ? undefined
-        : {
-              transitionProperty: property,
-              msTransitionProperty: property,
-              MozTransitionProperty: property,
-              WebkitTransitionProperty: property,
+    if (index === -1 || ended === true || animating === false) {
+        return undefined;
+    }
 
-              transitionDuration: duration + "ms",
-              msTransitionDuration: duration + "ms",
-              MozTransitionDuration: duration + "ms",
-              WebkitTransitionDuration: duration + "ms",
+    return {
+        transitionProperty: property,
+        msTransitionProperty: property,
+        MozTransitionProperty: property,
+        WebkitTransitionProperty: property,
 
-              transitionDelay: delay + "ms",
-              msTransitionDelay: delay + "ms",
-              MozTransitionDelay: delay + "ms",
-              WebkitTransitionDelay: delay + "ms",
+        transitionDuration: duration + "ms",
+        msTransitionDuration: duration + "ms",
+        MozTransitionDuration: duration + "ms",
+        WebkitTransitionDuration: duration + "ms",
 
-              transitionTimingFunction: easing,
-              MozTransitionTimingFunction: easing,
-              WebkitTransitionTimingFunction: easing,
-          };
+        transitionDelay: delay + "ms",
+        msTransitionDelay: delay + "ms",
+        MozTransitionDelay: delay + "ms",
+        WebkitTransitionDelay: delay + "ms",
+
+        transitionTimingFunction: easing,
+        MozTransitionTimingFunction: easing,
+        WebkitTransitionTimingFunction: easing,
+    };
 }
 
 const Any = function <T extends AllTags, B extends Breakpoints>({
@@ -357,6 +362,7 @@ const Any = function <T extends AllTags, B extends Breakpoints>({
                 to,
                 index,
                 ended,
+                animating,
                 animatedProperties,
                 breakpoints,
             })}
