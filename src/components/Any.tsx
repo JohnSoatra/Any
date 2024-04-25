@@ -11,6 +11,7 @@ import {
 } from "../utils/any";
 import isArray from "../utils/array";
 import { clearTimeouts } from "../utils/timeout";
+import useVisible from "../hooks/useVisible";
 
 type RemoveProps =
     | "from"
@@ -20,49 +21,56 @@ type RemoveProps =
     | "as"
     | "start"
     | "instant"
+    // | "pause"
     | "animatedProperties"
-    | "style"
     | "mergeConfig"
     | "breakpoints"
     | "onStart"
     | "onEnd";
 
-type SameProps_1 = {
+type SameProps1 = {
     from: string;
     start?: boolean;
     instant?: boolean;
+    // pause?: boolean;
     animatedProperties?: [string, ...string[]];
     mergeConfig?: TailwindMergeType;
     onStart?: () => void;
     onEnd?: () => void;
+    onEnter?: () => void;
+    onLeave?: () => void;
 };
 
-type SameProps_2<B extends Breakpoints> =
-    | (SameProps_1 & {
+type SameProps2<B extends Breakpoints> =
+    | (SameProps1 & {
           breakpoints?: undefined;
           to: Tos<undefined>;
       })
-    | (SameProps_1 & {
+    | (SameProps1 & {
           breakpoints: B;
           to: Tos<B>;
       });
 
-type Same_Props_3<B extends Breakpoints> =
-    | (SameProps_2<B> & {
+type SameProps3<B extends Breakpoints> =
+    | (SameProps2<B> & {
           children: React.ReactNode;
           dangerouslySetInnerHTML?: undefined;
       })
-    | (SameProps_2<B> & {
+    | (SameProps2<B> & {
           children?: undefined;
           dangerouslySetInnerHTML: { __html: string };
+      })
+    | (SameProps2<B> & {
+          children?: undefined;
+          dangerouslySetInnerHTML?: { __html: string };
       });
 
 type AnyProps<T extends AllTags, B extends Breakpoints> =
-    | (Same_Props_3<B> &
+    | (SameProps3<B> &
           Omit<JSX.IntrinsicElements["div"], RemoveProps> & {
               as?: undefined;
           })
-    | (Same_Props_3<B> &
+    | (SameProps3<B> &
           Omit<JSX.IntrinsicElements[T], RemoveProps> & {
               as: T;
           });
@@ -71,40 +79,49 @@ function animatedProps<B extends Breakpoints>({
     to,
     index,
     ended,
-    animating,
+    // animating,
+    // pause,
     breakpoints,
     animatedProperties,
 }: {
     to: Tos<B>;
     index: number;
     ended: boolean;
-    animating: boolean;
+    // animating: boolean;
+    // pause?: boolean;
     animatedProperties?: [string, ...string[]];
     breakpoints?: B;
 }): React.HTMLAttributes<HTMLDivElement>["style"] {
-    const property = getProperty(animatedProperties);
-    const duration = getDuration({
+    let property = getProperty(animatedProperties);
+    let duration = getDuration({
         index,
         ended,
         to,
         breakpoints,
     });
-    const easing = getEasing({
+    let easing = getEasing({
         index,
         ended,
         to,
         breakpoints,
     });
-    const delay = getDelay({
+    let delay = getDelay({
         index,
         ended,
         to,
         breakpoints,
     });
 
-    if (index === -1 || ended === true || animating === false) {
-        return undefined;
+    if (ended === true) {
+        return {};
     }
+
+    // if (pause === true) {
+    //     property = "all";
+    //     duration = 0;
+    //     delay = 3.156e10;
+    //     easing = "linear";
+    // }
 
     return {
         transitionProperty: property,
@@ -134,11 +151,15 @@ const Any = function <T extends AllTags, B extends Breakpoints>({
     to,
     start,
     instant,
+    // pause,
     breakpoints,
     animatedProperties,
     mergeConfig,
+    style,
     onStart,
     onEnd,
+    onEnter,
+    onLeave,
     ...props
 }: AnyProps<T, B>) {
     const [Tag]: ["div" | (() => JSX.Element), React.Dispatch<any>] = useState(
@@ -151,6 +172,7 @@ const Any = function <T extends AllTags, B extends Breakpoints>({
     const [animating, setAnimating] = useState(false);
     const ref = useRef(null);
     const isReached = useReached(ref);
+    const isVisible = useVisible(ref);
     const timeoutRef = useRef<NodeJS.Timeout>();
     const timeoutsRef = useRef<NodeJS.Timeout[]>();
 
@@ -345,6 +367,30 @@ const Any = function <T extends AllTags, B extends Breakpoints>({
         }
     }, [animating, index, to]);
 
+    useEffect(() => {
+        if (isReached) {
+            if (isVisible === true) {
+                if (onEnter) {
+                    onEnter();
+                }
+            } else if (isVisible === false) {
+                if (onLeave) {
+                    onLeave();
+                }
+            }
+        }
+    }, [isReached, isVisible, onEnter, onLeave]);
+
+    // useEffect(() => {
+    //     if (pause === true) {
+    //         clearTimeouts([timeoutRef.current, ...(timeoutsRef.current || [])]);
+
+    //         if (index > -1) {
+    //             setIndex(index - 1);
+    //         }
+    //     }
+    // }, [pause, index]);
+
     return (
         <Tag
             {...(props as React.HTMLAttributes<HTMLDivElement>)}
@@ -357,14 +403,18 @@ const Any = function <T extends AllTags, B extends Breakpoints>({
                 ],
                 ...(mergeConfig || {}),
             })}
-            style={animatedProps({
-                to,
-                index,
-                ended,
-                animating,
-                animatedProperties,
-                breakpoints,
-            })}
+            style={{
+                ...(style || {}),
+                ...animatedProps({
+                    to,
+                    index,
+                    ended,
+                    // animating,
+                    // pause,
+                    animatedProperties,
+                    breakpoints,
+                }),
+            }}
         />
     );
 };
