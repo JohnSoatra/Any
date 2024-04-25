@@ -11,7 +11,8 @@ Any is a **[React](https://react.dev/)** component library used to create animat
 
 ### Default:
 ```js
-import Any, { Easings } from '@soatra/any';
+import Any from '@soatra/any';
+import { Easings } from '@soatra/any/static';
 
 const MyComponent = () => {
     return (
@@ -153,6 +154,16 @@ Type: `(() => void) | undefined`
 Type: `(() => void) | undefined`
 
 ***is used to handle when animation is ending.***
+
+### -- onEnter:
+Type: `(() => void) | undefined`
+
+***is used to handle when element enters the screen.***
+
+### -- onLeave:
+Type: `(() => void) | undefined`
+
+***is used to handle when element leaves the screen.***
 
 ##
 
