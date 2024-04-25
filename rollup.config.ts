@@ -16,13 +16,13 @@ const developMode = process.env.NODE_ENV === 'develop';
 
 const options = defineConfig([
     {
-        input: "src/exports.ts",
+        input: "src/exports/default.ts",
         output: [
             {
                 file: 'dist/index.js',
                 format: "cjs",
+                banner: `'use client';`,
                 exports: 'named',
-                banner: `'use client';`
             },
             {
                 file: 'dist/index.mjs',
@@ -52,7 +52,7 @@ const options = defineConfig([
         external: ["react", "react-dom"]
     },
     {
-        input: "src/exports.ts",
+        input: "src/exports/default.ts",
         output: [
             {
                 file: "dist/index.d.ts",
@@ -63,13 +63,64 @@ const options = defineConfig([
             dts(),
             del({
                 targets: [
-                    'dist/App.d.ts',
-                    'dist/exports.d.ts',
-                    'dist/types.d.ts'
+                    'dist/*'
+                ],
+                ignore: [
+                    'dist/index.js',
+                    'dist/index.mjs',
+                ],
+            })
+        ]
+    },
+
+    {
+        input: "src/exports/static.ts",
+        output: [
+            {
+                file: 'dist/static/index.js',
+                format: "cjs",
+            },
+            {
+                file: 'dist/static/index.mjs',
+                format: "esm",
+            },
+        ],
+        external: ["react", "react-dom"],
+        plugins: [
+            typescript({
+                tsconfig: './tsconfig.json',
+            }),
+            resolve(),
+            commonjs(),
+            babel({
+                extensions: ['.js', '.jsx', '.ts', '.tsx'],
+                exclude: 'node_modules/**',
+                babelHelpers: 'bundled'
+            }),
+            postcss(),
+            ...(developMode ? [] : [terser()]),
+        ]
+    },
+    {
+        input: "src/exports/static.ts",
+        output: [
+            {
+                file: "dist/static/index.d.ts",
+                format: "es"
+            },
+        ],
+        plugins: [
+            dts(),
+            del({
+                targets: [
+                    'dist/static/*'
+                ],
+                ignore: [
+                    'dist/static/index.js',
+                    'dist/static/index.mjs',
                 ]
             })
-        ],
-        external: [/\.css$/],
+        ]
     },
 ]);
 

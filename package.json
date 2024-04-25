@@ -81,6 +81,12 @@
     "LICENSE",
     "package.json"
   ],
+  "exports": {
+    ".": "./dist/index.js",
+    "./index.mjs": "./dist/index.mjs",
+    "./static": "./dist/static/index.js",
+    "./static/mjs": "./dist/static/index.mjs"
+  },
   "browserslist": {
     "production": [
       ">0.2%",
