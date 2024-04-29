@@ -21,18 +21,18 @@ type RemoveProps =
     | "as"
     | "start"
     | "instant"
-    // | "pause"
     | "animatedProperties"
     | "mergeConfig"
     | "breakpoints"
     | "onStart"
-    | "onEnd";
+    | "onEnd"
+    | "onEnter"
+    | "onLeave";
 
 type SameProps1 = {
     from: string;
     start?: boolean;
     instant?: boolean;
-    // pause?: boolean;
     animatedProperties?: [string, ...string[]];
     mergeConfig?: TailwindMergeType;
     onStart?: () => void;
@@ -79,16 +79,12 @@ function animatedProps<B extends Breakpoints>({
     to,
     index,
     ended,
-    // animating,
-    // pause,
     breakpoints,
     animatedProperties,
 }: {
     to: Tos<B>;
     index: number;
     ended: boolean;
-    // animating: boolean;
-    // pause?: boolean;
     animatedProperties?: [string, ...string[]];
     breakpoints?: B;
 }): React.HTMLAttributes<HTMLDivElement>["style"] {
@@ -115,13 +111,6 @@ function animatedProps<B extends Breakpoints>({
     if (ended === true) {
         return {};
     }
-
-    // if (pause === true) {
-    //     property = "all";
-    //     duration = 0;
-    //     delay = 3.156e10;
-    //     easing = "linear";
-    // }
 
     return {
         transitionProperty: property,
@@ -151,7 +140,6 @@ const Any = function <T extends AllTags, B extends Breakpoints>({
     to,
     start,
     instant,
-    // pause,
     breakpoints,
     animatedProperties,
     mergeConfig,
@@ -263,8 +251,11 @@ const Any = function <T extends AllTags, B extends Breakpoints>({
                     timeoutRef.current = setTimeout(() => {
                         timeoutRef.current = undefined;
 
-                        if (currentTo.onEnd !== undefined) {
-                            currentTo.onEnd();
+                        if (
+                            index < to.length - 1 &&
+                            (currentTo as To<B>).onEnd !== undefined
+                        ) {
+                            (currentTo as To<B>).onEnd!();
                         }
 
                         if (
@@ -331,7 +322,7 @@ const Any = function <T extends AllTags, B extends Breakpoints>({
                 if (index === to.length - 1) {
                     setEnded(true);
 
-                    if (onEnd) {
+                    if (onEnd !== undefined) {
                         onEnd();
                     }
                 }
@@ -381,16 +372,6 @@ const Any = function <T extends AllTags, B extends Breakpoints>({
         }
     }, [isReached, isVisible, onEnter, onLeave]);
 
-    // useEffect(() => {
-    //     if (pause === true) {
-    //         clearTimeouts([timeoutRef.current, ...(timeoutsRef.current || [])]);
-
-    //         if (index > -1) {
-    //             setIndex(index - 1);
-    //         }
-    //     }
-    // }, [pause, index]);
-
     return (
         <Tag
             {...(props as React.HTMLAttributes<HTMLDivElement>)}
@@ -409,8 +390,6 @@ const Any = function <T extends AllTags, B extends Breakpoints>({
                     to,
                     index,
                     ended,
-                    // animating,
-                    // pause,
                     animatedProperties,
                     breakpoints,
                 }),

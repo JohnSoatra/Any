@@ -52,12 +52,15 @@ type EasingType = {
     Steps: (n: number, jump: Jump) => `steps(${number}, ${Jump})`;
 };
 
-type ToBegin<B extends Breakpoints | undefined> = {
+type ToSingle<B extends Breakpoints | undefined> = {
     state: string;
     duration: number | DurationValueBreakpoints<B>;
     easing: Easing | EasingValueBreakpoints<B>;
     delay?: number | DelayValueBreakpoints<B>;
-    on?: On|On[],
+    on?: On | On[];
+};
+
+type ToBegin<B extends Breakpoints | undefined> = ToSingle<B> & {
     onEnd?: () => void;
 };
 
@@ -66,7 +69,12 @@ type To<B extends Breakpoints | undefined> = ToBegin<B> & {
     after?: number;
 };
 
-type Tos<B extends Breakpoints | undefined> = [ToBegin<B>, ...To<B>[]];
+type ToEnd<B extends Breakpoints | undefined> = Omit<To<B>, "onEnd">;
+
+type Tos<B extends Breakpoints | undefined> =
+    | [ToSingle<B>]
+    | [ToBegin<B>, ToEnd<B>]
+    | [ToBegin<B>, ...To<B>[], ToEnd<B>];
 
 type DefaultBreakpoints = {
     sm?: number;
@@ -123,9 +131,9 @@ type AllValueBreakpoints<B extends Breakpoints> =
     | EasingValueBreakpoints<B>;
 
 type On = {
-    complete: number,
-    task: () => void
-}
+    complete: number;
+    task: () => void;
+};
 
 export type {
     AllTags,
@@ -140,5 +148,5 @@ export type {
     DurationValueBreakpoints,
     EasingValueBreakpoints,
     AllValueBreakpoints,
-    On
+    On,
 };
